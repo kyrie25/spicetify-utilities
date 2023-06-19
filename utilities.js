@@ -5,7 +5,7 @@
         return;
     }
 
-    let config, devtoolsInterval, titleInterval;
+    let config, titleInterval;
     try {
         config = JSON.parse(localStorage.getItem("utilities:config") || "{}");
     } catch {
@@ -111,24 +111,6 @@
         return container;
     }
 
-    async function enableDevtools() {
-        // Value needs to differ to save to file
-        // Anything higher than 1 should work
-        await Spicetify.Platform.UserAPI._product_state.putValues({
-            pairs: { "app-developer": "3" },
-        });
-        await Spicetify.Platform.UserAPI._product_state.putOverridesValues({
-            pairs: { "app-developer": "3" },
-        });
-
-        await Spicetify.Platform.UserAPI._product_state.putValues({
-            pairs: { "app-developer": "2" },
-        });
-        await Spicetify.Platform.UserAPI._product_state.putOverridesValues({
-            pairs: { "app-developer": "2" },
-        });
-    }
-
     async function setTitle(title) {
         await Spicetify.AppTitle.reset();
         Spicetify.AppTitle.set(title);
@@ -170,16 +152,11 @@
     container.appendChild(
         createSlider("devtools", "Enable DevTools (takes effect after restart)", false, async (state) => {
             if (state) {
-                enableDevtools();
-                devtoolsInterval = setInterval(enableDevtools, 10000);
-            } else {
-                clearInterval(devtoolsInterval);
-                await Spicetify.Platform.UserAPI._product_state.putValues({
-                    pairs: { "app-developer": "0" },
-                });
                 await Spicetify.Platform.UserAPI._product_state.putOverridesValues({
-                    pairs: { "app-developer": "0" },
+                    pairs: { "app-developer": "2" },
                 });
+            } else {
+                await Spicetify.Platform.UserAPI._product_state.delOverridesValues({ keys: ["app-developer"] });
             }
         })
     );

@@ -51,7 +51,7 @@ Nothing much to say about this, without enabling DevTools there aren't many ways
 
 Currently Spotify prevents DevTools from being used in the following session after running `spicetify enable-devtools`. This extension will automatically enable DevTools and keep it open for you.
 
-**Note**: The settings will be applied after restarting the client (completely closing and reopening Spotify).
+**Note**: The settings will be applied after restarting the client (completely closing and reopening Spotify). It may not work for everyone.
 
 ### Changing the window title
 
