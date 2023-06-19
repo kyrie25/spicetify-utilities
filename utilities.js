@@ -118,15 +118,15 @@
 
     function createInput(name, desc, defaultVal, onChange) {
         // Init
-        defaultVal = config[name] ?? defaultVal;
-        onChange(defaultVal);
+        value = config[name] ?? defaultVal;
+        onChange(value);
 
         const container = document.createElement("div");
         container.classList.add("setting-row");
         container.id = name;
         container.innerHTML = `
   <label class="col description">${desc}</label>
-  <div class="col action"><input type="text" value="${defaultVal}"></div>`;
+  <div class="col action"><input type="text" value="${value}" placeholder="${defaultVal}"></div>`;
         const input = container.querySelector("input");
         input.onchange = () => {
             config[name] = input.value;
