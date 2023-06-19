@@ -1,0 +1,7 @@
+{
+  "name": "Utilities",
+  "description": "Collection of utilities for Spicetify",
+  "preview": "preview.png",
+  "main": "utilities.js",
+  "readme": "README.md"
+}
