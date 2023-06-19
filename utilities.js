@@ -5,7 +5,7 @@
         return;
     }
 
-    let config, titleInterval;
+    let config, titleInterval, listener;
     try {
         config = JSON.parse(localStorage.getItem("utilities:config") || "{}");
     } catch {
@@ -155,7 +155,13 @@
                 await Spicetify.Platform.UserAPI._product_state.putOverridesValues({
                     pairs: { "app-developer": "2" },
                 });
+                listener = Spicetify.Platform.UserAPI._product_state.subValues({ keys: ["app-developer"] }, () => {
+                    Spicetify.Platform.UserAPI._product_state.putOverridesValues({
+                        pairs: { "app-developer": "2" },
+                    });
+                });
             } else {
+                listener?.cancel();
                 await Spicetify.Platform.UserAPI._product_state.delOverridesValues({ keys: ["app-developer"] });
             }
         })
