@@ -5,7 +5,7 @@
         return;
     }
 
-    let config, listener;
+    let config, listener, interval;
     try {
         config = JSON.parse(localStorage.getItem("utilities:config") || "{}");
     } catch {
@@ -147,17 +147,17 @@
     container.appendChild(
         createSlider("devtools", "Enable DevTools (takes effect after restart)", false, async (state) => {
             if (state) {
-                await Spicetify.Platform.UserAPI._product_state.putValues({
+                await Spicetify.Platform.UserAPI._product_state.putOverridesValues({
                     pairs: { "app-developer": "2" },
                 });
                 listener = Spicetify.Platform.UserAPI._product_state.subValues({ keys: ["app-developer"] }, () => {
-                    Spicetify.Platform.UserAPI._product_state.putValues({
+                    Spicetify.Platform.UserAPI._product_state.putOverridesValues({
                         pairs: { "app-developer": "2" },
                     });
                 });
             } else {
                 listener?.cancel();
-                await Spicetify.Platform.UserAPI._product_state.putValues({
+                await Spicetify.Platform.UserAPI._product_state.putOverridesValues({
                     pairs: { "app-developer": "0" },
                 });
             }
@@ -167,8 +167,12 @@
     // Change AppTitle
     container.appendChild(
         createInput("apptitle", "Change client title", await Spicetify.AppTitle.get(), (state) => {
-            if (!state) Spicetify.AppTitle.reset();
-            else Spicetify.AppTitle.set(state);
+            if (!state) {
+                clearInterval(interval);
+                Spicetify.AppTitle.reset();
+            } else {
+                interval = setInterval(() => Spicetify.AppTitle.set(state), 6000);
+            }
         })
     );
 
