@@ -77,6 +77,23 @@
           width: 22px;
           height: 22px;
           padding: 3px;
+      }
+      button.btn {
+          font-weight: 700;
+          font-size: medium;
+          background-color: transparent;
+          border-radius: 500px;
+          transition-duration: 33ms;
+          transition-property: background-color, border-color, color, box-shadow, filter, transform;
+          padding-inline: 15px;
+          border: 1px solid #727272;
+          color: var(--spice-text);
+          min-block-size: 32px;
+          cursor: pointer;
+      }
+      button.btn:hover {
+          transform: scale(1.04);
+          border-color: var(--spice-text);
       }`;
     container.appendChild(style);
 
@@ -137,6 +154,20 @@
         return container;
     }
 
+    function createButton(name, desc, onclick) {
+        const button = document.createElement("div");
+        button.classList.add("setting-row");
+        button.id = "reset";
+        button.innerHTML += `
+          <label class="col description">${desc}</label>
+          <div class="col action">
+            <button class="btn">${name}</button>
+          </div>`;
+        const btn = button.querySelector("button.btn");
+        btn.onclick = onclick;
+        return button;
+    }
+
     // Reload keybind
     container.appendChild(
         createSlider("reload", "Reload Spotify with F5 (browser-style)", false, (state) => {
@@ -181,6 +212,20 @@
                 Spicetify.AppTitle.set(state);
                 titleInterval = setInterval(setTitle, 5000, state);
             }
+        })
+    );
+
+    // Reload Spotify
+    container.appendChild(
+        createButton("Reload", "Reload Spotify", () => {
+            window.location.reload();
+        })
+    );
+
+    // Restart Spotify
+    container.appendChild(
+        createButton("Restart", "Restart Spotify", () => {
+            Spicetify.Platform.UpdateAPI.applyUpdate();
         })
     );
 
