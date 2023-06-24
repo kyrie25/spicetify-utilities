@@ -4,7 +4,7 @@ Collection of niche utilities for Spicetify users and developers.
 
 If you have another niche utility that you want to be included in this extension, feel free to open an issue or a pull request.
 
-![preview](preview.png)
+![preview](screenshot.png)
 
 ## Install
 
