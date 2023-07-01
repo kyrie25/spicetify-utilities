@@ -41,6 +41,8 @@ spicetify apply
 
 ## Usage
 
+The `Utilities` menu can be accessed via the profile menu dropdown.
+
 Currently, the extension provides the following features:
 
 ### Reload on pressing F5
