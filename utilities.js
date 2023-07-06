@@ -13,6 +13,7 @@
             reload: false,
             devtools: false,
             apptitle: "",
+            stop: false,
         };
     }
 
@@ -176,6 +177,17 @@
                     window.location.reload();
                 });
             } else Mousetrap.unbind("f5");
+        })
+    );
+
+    // Stop keybind
+    container.appendChild(
+        createSlider("stop", "Stop Spotify execution with F8 (requires opened DevTools window)", false, (state) => {
+            if (state) {
+                Mousetrap.bind("f8", () => {
+                    debugger;
+                });
+            } else Mousetrap.unbind("f8");
         })
     );
 
