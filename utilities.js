@@ -194,19 +194,20 @@
     // Enable DevTools
     container.appendChild(
         createSlider("devtools", "Enable DevTools (takes effect after restart)", false, async (state) => {
+            const productState = Spicetify.Platform.UserAPI._product_state || Spicetify.Platform.UserAPI._product_state_service;
             if (state) {
                 // `putOverridesValues` self-resets after a long period of time for unknown reasons
-                await Spicetify.Platform.UserAPI._product_state.putValues({
+                await productState.putValues({
                     pairs: { "app-developer": "2" },
                 });
-                listener = Spicetify.Platform.UserAPI._product_state.subValues({ keys: ["app-developer"] }, () => {
-                    Spicetify.Platform.UserAPI._product_state.putValues({
+                listener = productState.subValues({ keys: ["app-developer"] }, () => {
+                    productState.putValues({
                         pairs: { "app-developer": "2" },
                     });
                 });
             } else {
                 listener?.cancel();
-                await Spicetify.Platform.UserAPI._product_state.putValues({
+                await productState.putValues({
                     pairs: { "app-developer": "0" },
                 });
             }
